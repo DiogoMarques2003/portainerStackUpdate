@@ -1,0 +1,11 @@
+logging:
+  type: console                    # default: console
+instances:                         #List of Portainer instances to manage
+  - name: example                  # Name of the instance
+    host: https://localhost:9443   # Portainer host URL
+    username: admin                # Portainer username
+    password: admin                # Portainer password
+    deleteUnusedImages: false      # Delete unused images after update
+    ignoreStacks:                  # Stacks to ignore during updates
+      - stack1
+      - stack2

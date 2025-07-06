@@ -1,3 +1,7 @@
+# Ignore config files
+**/config.yml
+!src/resources/config-exemplo.yml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
