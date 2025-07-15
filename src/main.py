@@ -1,6 +1,7 @@
 import argparse
 import os
 from utils.helpers import init_config
+from core.portainer import Portainer
 
 def main():
     parser = argparse.ArgumentParser(description="Portainer stack automatic update")
@@ -14,7 +15,7 @@ def main():
     if args.init_config:
         init_config(config_path)
         return
-    
+
     print(args)
 
 if __name__ == '__main__':
