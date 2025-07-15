@@ -20,19 +20,6 @@ class Portainer:
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
             raise PortainerError(f"Failed to reach Portainer: {e}")
-        
-    def get_docker_api_version(self, environment_id: int):
-        """Get the Docker API version for a specific environment."""
-        try:
-            response = self.session.get(f"{self.url}/api/endpoints/{environment_id}/docker/version")
-
-            response.raise_for_status()
-
-            return response.json().get('ApiVersion', '1.41')  # Default to 1.41 if not found
-        except requests.exceptions.RequestException as e:
-            raise PortainerError(f"Failed to get Docker API version for environment {environment_id}: {e}")
-        except ValueError:
-            raise PortainerError("Invalid response from Portainer API. Could not parse JSON.")
     
     def check_if_portainer_needs_update(self):
         """Check if the Portainer instance needs an update."""
@@ -167,10 +154,10 @@ class Portainer:
         except ValueError:
             raise PortainerError("Invalid response from Portainer API. Could not parse JSON.")
         
-    def delete_image(self, environment_id: int, docker_api_version: str, image_id: str):
+    def delete_image(self, environment_id: int, image_id: str):
         """Delete an image from a specific environment."""
         try:
-            response = self.session.delete(f"{self.url}/api/endpoints/{environment_id}/docker/v{docker_api_version}/images/{image_id}?force=false")
+            response = self.session.delete(f"{self.url}/api/endpoints/{environment_id}/docker/images/{image_id}?force=false")
 
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
