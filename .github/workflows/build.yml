@@ -66,6 +66,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Extract version from pyproject.toml
+        id: get_version
+        run: |
+          version=$(grep '^version' pyproject.toml | head -n 1 | cut -d '"' -f2)
+          echo "tag=v$version" >> $GITHUB_OUTPUT
+
       - name: Download Windows executable
         uses: actions/download-artifact@v4
         with:
@@ -78,15 +84,11 @@ jobs:
           name: main-linux-exe
           path: .
 
-      - name: Create version tag
-        id: get_tag
-        run: echo "tag=v$(date +'%Y.%m.%d.%H%M%S')" >> $GITHUB_OUTPUT
-
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.get_tag.outputs.tag }}
+          tag_name: ${{ steps.get_version.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
@@ -95,7 +97,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./main.exe
-          asset_name: main-windows.exe
+          asset_name: portainerStackUpdate.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Linux executable to Release
@@ -103,5 +105,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./main
-          asset_name: main-linux
+          asset_name: portainerStackUpdate
           asset_content_type: application/octet-stream
