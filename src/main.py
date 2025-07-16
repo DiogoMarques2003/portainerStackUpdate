@@ -87,26 +87,28 @@ def main():
                     # Process each stack
                     for stack in stacks:
                         try:
+                            stack_name = stack.get('Name')
+
                             # Check if the stack is ignored
-                            if stack.get('Name') in ignore_stack:
-                                logger.log(f'Ignoring stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host}).')
+                            if stack_name in ignore_stack:
+                                logger.log(f'Ignoring stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 continue
                             
                             stack_id = stack.get('Id')
 
                             # Check if the stack is from git integration and if it needs to be updated
                             if stack.get('GitConfig') and not update_stacks_with_git:
-                                logger.log(f'Skipping stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host}) due to Git integration.')
+                                logger.log(f'Skipping stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host}) due to Git integration.')
                                 continue
 
                             # Refresh the stack
                             needs_update = portainer.refresh_stack_images(stack_id).lower()
                             if needs_update in ('updated', 'skipped'):
-                                logger.log(f'Stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host}) is {needs_update}.')
+                                logger.log(f'Stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host}) is {needs_update}.')
                                 continue
 
                             if stack.get('GitConfig'):
-                                logger.log(f'Updating stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host}) with Git integration.')
+                                logger.log(f'Updating stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host}) with Git integration.')
                                 git_authentication = stack.get('GitConfig', {}).get('Authentication', {})
                                 repository_git_credential_id = git_authentication.get('GitCredentialID')
                                 repository_password = git_authentication.get('Password')
@@ -126,14 +128,14 @@ def main():
                                     repository_username=repository_username,
                                     env=env_vars,
                                     prune=purne_services )
-                                logger.log(f'Stack [{stack.get('Name')}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
+                                logger.log(f'Stack [{stack_name}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 any_stack_updated = True
                             else:
-                                logger.log(f'Updating stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host}).')
+                                logger.log(f'Updating stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 webhook = stack.get('Webhook', '')
                                 stack_file_content = portainer.get_stack_file_content(stack_id)
                                 if not stack_file_content:
-                                    logger.log(f'Stack file content for stack [{stack.get('Name')}] in environment [{env_name}] of Portainer instance [{name}]({host})is empty.', level='ERROR')
+                                    logger.log(f'Stack file content for stack [{stack_name}] in environment [{env_name}] of Portainer instance [{name}]({host})is empty.', level='ERROR')
                                     continue
                                 env_vars = stack.get('Env', [])
 
@@ -144,7 +146,7 @@ def main():
                                     stack_file_content=stack_file_content,
                                     prune=purne_services,
                                     webhook=webhook )
-                                logger.log(f'Stack [{stack.get('Name')}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
+                                logger.log(f'Stack [{stack_name}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 any_stack_updated = True
                         except PortainerError as e:
                             logger.log(e, level='ERROR')
