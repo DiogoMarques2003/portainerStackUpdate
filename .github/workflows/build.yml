@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -27,7 +27,7 @@ jobs:
           echo "exe_path=dist/main.exe" >> $env:GITHUB_OUTPUT
 
       - name: Upload Windows executable artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: main-windows-exe
           path: dist/main.exe
@@ -37,7 +37,7 @@ jobs:
     needs: build_windows
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -54,7 +54,7 @@ jobs:
           echo "exe_path=dist/main" >> $GITHUB_OUTPUT
 
       - name: Upload Linux executable artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: main-linux-exe
           path: dist/main
@@ -64,16 +64,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download Windows executable
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: main-windows-exe
           path: .
 
       - name: Download Linux executable
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: main-linux-exe
           path: .
