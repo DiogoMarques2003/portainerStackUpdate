@@ -1,12 +1,14 @@
 logging:
-  type: console                          # Default: console
-instances:                               # List of Portainer instances to manage
-  - name: example                        # Name of the instance
-    host: https://localhost:9443         # Portainer host URL
-    accessToken: your_access_token_here  # Access token for portainer
-    verifySSL: false                     # Verify SSL certificate default: false
-    updatePortainerVersion: false        # Update Portainer version default: false
-    deleteUnusedImages: false            # Delete unused images after update default: false
-    ignoreStacks:                        # Stacks to ignore during updates
+  type: console                            # Default: console
+instances:                                 # List of Portainer instances to manage
+  - name: example                          # Name of the instance
+    host: https://localhost:9443           # Portainer host URL
+    accessToken: your_access_token_here    # Access token for portainer
+    verifySSL: false                       # Verify SSL certificate default: false
+    updatePortainerVersion: false          # Update Portainer version default: false
+    updateStacksWithGitIntegration: false  # Update stacks with Git integration default: false
+    purneServices: false                   # Prune services that are no longer referenced default: false
+    deleteUnusedImages: false              # Delete unused images after update default: false
+    ignoreStacks:                          # Stacks to ignore during updates
       - stack1
       - stack2

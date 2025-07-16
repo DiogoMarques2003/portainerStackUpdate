@@ -1,3 +1,3 @@
 class PortainerError(Exception):
-    """Base class for Portainer-related errors."""
+    '''Base class for Portainer-related errors.'''
     pass
