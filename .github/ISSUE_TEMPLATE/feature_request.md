@@ -1,3 +1,9 @@
+---
+name: Feature Request
+about: Suggest an idea for improvement or new feature
+title: ''
+labels: enhancement
+assignees: ''
 
 ---
 
