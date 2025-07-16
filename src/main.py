@@ -2,6 +2,9 @@ import argparse
 import os
 from utils.helpers import init_config
 from core.portainer import Portainer
+from core.read_config_file import ReadConfigFile
+from errors.read_config_file_error import ReadConfigFileError
+from errors.portainer_error import PortainerError
 
 def main():
     parser = argparse.ArgumentParser(description="Portainer stack automatic update")
@@ -15,8 +18,17 @@ def main():
     if args.init_config:
         init_config(config_path)
         return
+    
+    try:
+        config, logger = ReadConfigFile(config_path).read()
+    except ReadConfigFileError as e:
+        print(e)
+        return
 
-    print(args)
+    # Send initialization message
+    logger.log("Configuration file read successfully, starting processing.")
+
+    print(config)
 
 if __name__ == '__main__':
     main()
