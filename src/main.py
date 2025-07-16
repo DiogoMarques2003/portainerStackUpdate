@@ -38,7 +38,7 @@ def main():
         verify_ssl = instance.get('verifySSL', False)
         update_portainer = instance.get('updatePortainerVersion', False)
         delete_unused_images_flag = instance.get('deleteUnusedImages', False)
-        purne_services = instance.get('purneServices', False)
+        prune_services = instance.get('pruneServices', False)
         ignore_stack = instance.get('ignoreStacks', [])
         update_stacks_with_git = instance.get('updateStacksWithGitIntegration', False)
 
@@ -127,7 +127,7 @@ def main():
                                     repository_reference_name=repository_reference_name,
                                     repository_username=repository_username,
                                     env=env_vars,
-                                    prune=purne_services )
+                                    prune=prune_services )
                                 logger.log(f'Stack [{stack_name}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 any_stack_updated = True
                             else:
@@ -144,7 +144,7 @@ def main():
                                     environment_id=env_id,
                                     env=env_vars,
                                     stack_file_content=stack_file_content,
-                                    prune=purne_services,
+                                    prune=prune_services,
                                     webhook=webhook )
                                 logger.log(f'Stack [{stack_name}] updated successfully in environment [{env_name}] of Portainer instance [{name}]({host}).')
                                 any_stack_updated = True

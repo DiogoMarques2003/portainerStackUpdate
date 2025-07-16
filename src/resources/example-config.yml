@@ -7,7 +7,7 @@ instances:                                 # List of Portainer instances to mana
     verifySSL: false                       # Verify SSL certificate default: false
     updatePortainerVersion: false          # Update Portainer version default: false
     updateStacksWithGitIntegration: false  # Update stacks with Git integration default: false
-    purneServices: false                   # Prune services that are no longer referenced default: false
+    pruneServices: false                   # Prune services that are no longer referenced default: false
     deleteUnusedImages: false              # Delete unused images after update default: false
     ignoreStacks:                          # Stacks to ignore during updates
       - stack1
